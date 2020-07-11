@@ -1,30 +1,25 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { useBookSearch } from './lib/hooks';
+import { useBookSearch, useDebounce } from './lib/hooks';
 import s from './App.module.css';
 
 export const App = () => {
-  let [query, setQuery] = useState('');
-  let [pageNumber, setPageNumber] = useState(1);
+  const [query, setQuery] = useState('');
+  const [pageNumber, setPageNumber] = useState(1);
+
+  const debouncedSearchTerm = useDebounce(query, 1000);
   
-  const {
-    isLoading,
-    books,
-    error,
-    hasMore
-  } = useBookSearch(query, pageNumber);
-  
+  const { isLoading, books, error, hasMore } = useBookSearch(debouncedSearchTerm, pageNumber);
   const observer = useRef(null);
 
   const lastBookElementRef = useCallback(node => {
-    if(isLoading) return;
-    if(observer.current) observer.current.disconnect();
+    if (isLoading) return;
+    if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(entries => {
-      if(entries[0].isIntersecting && hasMore) {
-        console.log('Visible');
+      if (entries[0].isIntersecting && hasMore) {
         setPageNumber(prevPage => prevPage + 1);
       }
     })
-    if(node) {
+    if (node) {
       observer.current.observe(node);
     }
   }, [isLoading, hasMore]);
