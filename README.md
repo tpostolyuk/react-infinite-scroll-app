@@ -1,4 +1,4 @@
-This project is about implementing infinite scroll pagination for list of items.
+This project is about implementing infinite scroll pagination for a list of books from free API.
 
 ## Available Scripts
 
