@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is about implementing infinite scroll pagination for list of items.
 
 ## Available Scripts
 
